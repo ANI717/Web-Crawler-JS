@@ -4,7 +4,8 @@
   "description": "A web crawler written in JavaScript for learning purpose",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node main.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
