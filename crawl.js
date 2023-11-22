@@ -1,26 +1,50 @@
 const {JSDOM} = require('jsdom')
 
 
-async function crawlPage(currentURL) {
+async function crawlPage(baseURL, currentURL, pages) {
+    const baseURLObj = new URL(baseURL)
+    const currentURLObs = new URL(currentURL)
+
+    const normalizedCurrentURL = normalizeURL(currentURL)
+    if (pages[normalizedCurrentURL] > 0) {
+        pages[normalizedCurrentURL]++
+        return pages
+    }
+    pages[normalizedCurrentURL] = 1
+
+
+    if (baseURLObj.hostname !== currentURLObs.hostname) {
+        console.log(`${currentURL}: not in same domain`)
+        return pages
+    }
+
+    console.log(`crawling "${currentURL}"`)
     try {
         const response = await fetch(currentURL)
 
         if (response.status > 399) {
             console.log(`${currentURL}: ${response.status}`)
-            return
+            return pages
         }
 
         const contentType = response.headers.get("content-type")
         console.log(contentType)
         if (!contentType.includes("text/html")) {
             console.log(`${currentURL}: not HTML`)
-            return
+            return pages
         }
         
-        return await response.text()
+        const htmlBody = await response.text()
+
+        const nextURLs = getURLsFromHTML(htmlBody, baseURL)
+        for(let nextURL of nextURLs) {
+            pages = await crawlPage(baseURL, nextURL, pages)
+        }
     } catch(err) {
         console.log(`${currentURL}: ${err.message}`)
+        return pages
     }
+    return pages
 }
 
 
