@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "cd src && node main.js",
-    "test": "cd src && jest"
+    "test": "jest ../test"
   },
   "repository": {
     "type": "git",
