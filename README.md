@@ -7,7 +7,7 @@ nmp install
 ```
 ## Run Application
 ```
-npm start
+npm start website
 ```
 ## Run Tests
 ```
