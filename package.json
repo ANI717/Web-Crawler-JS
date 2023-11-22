@@ -4,8 +4,8 @@
   "description": "A web crawler written in JavaScript for learning purpose",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js",
-    "test": "jest"
+    "start": "cd src && node main.js",
+    "test": "cd src && jest"
   },
   "repository": {
     "type": "git",
